@@ -1,0 +1,44 @@
+﻿@page "/"
+@inject HttpClient Http
+@using ReenbitDotNetTestTask.Models
+@using ReenbitDotNetTestTask.Services
+
+<SfUploader></SfUploader>
+<SfTextBox></SfTextBox>
+<SfButton></SfButton>
+
+<h1>Upload file</h1>
+
+<EditForm Model="@mainForm" OnValidSubmit="@HandleValidSubmit">
+
+    <div class="form-group">
+        <label for="File">File</label>
+        <InputFile id="File" @bind-Value="@mainForm.File" accept=".docx" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="Email">Email</label>
+        <InputText id="Email" @bind-Value="@mainForm.Email" type="email" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Upload</button>
+</EditForm>
+
+@code {
+    MainForm mainForm = new MainForm();
+
+    private async Task HandleValidSubmit()
+    {
+        var formData = new MultipartFormDataContent();
+        formData.Add(new StreamContent(mainForm.File.OpenReadStream()), "File", mainForm.File.FileName);
+        formData.Add(new StringContent(mainForm.Email), "Email");
+
+        var response = await Http.PostAsync("/API/upload", formData);
+        if (response.IsSuccessStatusCode)
+        {
+            // Handle success
+        }
+        else
+        {
+            // Handle error
+        }
+    }
+}

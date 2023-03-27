@@ -1,0 +1,25 @@
+﻿@model MainForm
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<h1>Upload file</h1>
+
+<form asp-action="UploadFile" enctype="multipart/form-data">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="File"></label>
+        <input asp-for="File" type="file" accept=".docx" class="form-control">
+    </div>
+    <div class="form-group">
+        <label asp-for="Email"></label>
+        <input asp-for="Email" type="email" class="form-control">
+    </div>
+    <button type="submit" class="btn btn-primary mt-2">Upload</button>
+</form>
+
+@section scripts{
+
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
